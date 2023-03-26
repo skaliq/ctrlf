@@ -11,4 +11,9 @@ public class LoginService extends GenericServiceImpl<Login> {
 		return new LoginDao();
 	}
 
+	public boolean userExists(String user) {
+		Login login = getDao().getByField("user", user);
+		return login != null;
+	}
+
 }

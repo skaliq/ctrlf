@@ -1,16 +1,15 @@
 package ctrlf;
 
-import org.fiep.senai.ctrlf.dao.LoginDao;
-import org.fiep.senai.ctrlf.dao.UsuarioDao;
 import org.fiep.senai.ctrlf.model.Login;
 import org.fiep.senai.ctrlf.model.Usuario;
 import org.fiep.senai.ctrlf.service.LoginService;
+import org.fiep.senai.ctrlf.service.UsuarioService;
 
 public class UsuarioLoginTest {
 
 	public static void main(String[] args) {
 		Login login = new Login();
-		login.setUser("rudhi_4");
+		login.setUser("rudhi_5");
 		login.setPassword("123");
 		
 		/*
@@ -18,15 +17,16 @@ public class UsuarioLoginTest {
 		 * usuario.setApelido("Rudhi");
 		 */
 		
-		Usuario usuario = new UsuarioDao().getById(2);
+		Usuario usuario = new UsuarioService().getById(2);
 		
 		//new UsuarioDao().save(usuario);
 		
 		//usuario.setLogin(login);
 		login.setUsuario(usuario);
 		
-		if (!new LoginDao().userExists(login.getUser())) {
-			new LoginDao().save(login);
+		if (!new LoginService().userExists(login.getUser())) {
+			new LoginService().save(login);
+			System.out.println("Login salvo.");
 		} else {
 			System.out.println("User já existe na tabela login.");
 		}

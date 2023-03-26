@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.fiep.senai.ctrlf.dao.interfaces.GenericDao;
@@ -17,25 +18,48 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 	
 	public void save(T t) {
 		setConnectionAngBegin();
-		em.persist(t);
-		commitAndClose();
+		try {
+			em.persist(t);
+		} catch (Exception ex) {
+			
+		} finally {
+			commitAndClose();
+		}
 	}
 
 	public void remove(T t) {
 		setConnectionAngBegin();
-		em.remove(t);
-		commitAndClose();
+		try {
+			em.remove(t);
+		} catch (Exception ex) {
+			
+		} finally {
+			commitAndClose();
+		}
 	}
 
 	public void update(T t) {
 		setConnectionAngBegin();
-		em.merge(t);
-		commitAndClose();
+		try {
+			em.merge(t);
+		} catch (Exception ex) {
+			
+		} finally {
+			commitAndClose();
+		}
 	}
 
 	public T getById(Integer id) {
 		setConnection();
-		return em.find(getEntityClass(), id);
+		T entity = null;
+		try {
+			em.find(getEntityClass(), id);
+		} catch (Exception ex) {
+			
+		} finally {
+			close();
+		}
+		return entity;
 	}
 
 	public List<T> getAll() {
@@ -45,6 +69,23 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 		List<T> list = new ArrayList<>(tq.getResultList());
 		close();
 		return list;
+	}
+	
+	@Override
+	public T getByField(String classProperty, String value) {
+		setConnection();
+		String query = "SELECT t FROM " + getClassName();
+		query += " t WHERE t." + classProperty + " = '" + value + "'";
+		TypedQuery<T> tq = em.createQuery(query, getEntityClass());
+		T entity = null; 
+		try {
+			entity = tq.getSingleResult();
+		} catch (NoResultException nre) {
+			
+		} finally {
+			close();
+		}
+		return entity;
 	}
 	
 	protected static void close() {
