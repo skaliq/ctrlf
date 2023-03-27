@@ -10,9 +10,9 @@ public interface GenericDao<T> {
 	void save(T t);
 	/**
 	 * remove um objeto na base de dados
-	 * @param t - o objeto a ser removido
+	 * @param id - o id do objeto a ser removido
 	 */
-	void remove(T t);
+	void remove(Integer id);
 	/**
 	 * Atualiza um objeto na base de dados
 	 * @param t - o objeto a ser atualizado

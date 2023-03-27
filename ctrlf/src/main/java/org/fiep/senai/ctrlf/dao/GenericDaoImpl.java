@@ -27,10 +27,16 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 		}
 	}
 
-	public void remove(T t) {
+	/**
+	 * Remove uma entidade da base a partir do id informado.
+	 * O id é usado para recuperar a entidade da base e, assim,
+	 * torná-la gerenciada.
+	 */
+	public void remove(Integer id) {
 		setConnectionAngBegin();
 		try {
-			em.remove(t);
+			T entity = em.find(getEntityClass(), id);
+			em.remove(entity);
 		} catch (Exception ex) {
 			
 		} finally {
@@ -53,7 +59,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 		setConnection();
 		T entity = null;
 		try {
-			em.find(getEntityClass(), id);
+			entity = em.find(getEntityClass(), id);
 		} catch (Exception ex) {
 			
 		} finally {

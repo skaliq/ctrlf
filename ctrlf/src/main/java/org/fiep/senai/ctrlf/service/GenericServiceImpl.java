@@ -14,8 +14,8 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
 	}
 
 	@Override
-	public void remove(T t) {
-		getDao().remove(t);
+	public void remove(Integer id) {
+		getDao().remove(id);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
 	}
 
 	@Override
-	public List<T> getAll(T t) {
+	public List<T> getAll() {
 		return getDao().getAll();
 	}
 }
